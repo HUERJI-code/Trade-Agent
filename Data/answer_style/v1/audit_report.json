@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "samples_checked": 1110,
+  "sources": {
+    "database": 862,
+    "authored_flow": 78,
+    "synthetic": 170
+  },
+  "unique_query_snapshots": 401,
+  "checks": [
+    "JSON 与 JSONL 一致",
+    "消息结构完整",
+    "无重复输入",
+    "同一事实组与查询快照没有跨划分",
+    "真实数值、单位、月度结果、排名与快照一致",
+    "加粗数值均来自上下文",
+    "文件与快照摘要一致"
+  ],
+  "limitations": [
+    "未训练或评测模型",
+    "不是 tokenizer 长度检查",
+    "同一模板的改写不是独立事实",
+    "模拟及流程情境不代表数据库实测结果"
+  ]
+}

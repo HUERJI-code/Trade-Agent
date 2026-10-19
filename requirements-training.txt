@@ -1,0 +1,12 @@
+# 独立安装到 .venv-training，不改变网页的 .venv。
+# torch 使用官方 CUDA 12.8 wheel 索引单独安装：torch==2.8.0。
+transformers==4.57.6
+peft==0.18.1
+accelerate==1.12.0
+bitsandbytes==0.49.2
+huggingface-hub==0.36.2
+safetensors==0.7.0
+PyYAML==6.0.3
+# 采用用户指定的标准 SFTTrainer 流程，数据直接使用 messages 格式。
+trl==1.13.0
+datasets==4.7.0

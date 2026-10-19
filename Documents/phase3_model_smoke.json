@@ -1,0 +1,859 @@
+{
+  "at": "2026-09-09T06:14:18.088384+00:00",
+  "environment": {
+    "version": "0.33.3",
+    "model": "qwen3:8b",
+    "installed": true,
+    "model_digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41"
+  },
+  "settings": {
+    "base_url": "http://127.0.0.1:11434",
+    "model": "qwen3:8b",
+    "timeout_seconds": 120,
+    "context_tokens": 4096,
+    "output_tokens": 384,
+    "temperature": 0.1,
+    "seed": 42
+  },
+  "prompt_sha256": "625a92748fc2ad389cbab3dfb9fe372bb938fbc5af60df053a7dcb72059198e1",
+  "cases_sha256": "cf7c0ddf067cf916235767cf4a32f1846d391e9a3701bd1bf92fb430fbcd21a8",
+  "kind": "development_smoke_not_holdout",
+  "cases": [
+    {
+      "question": "2019年德国销售额是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "de91dcdb-665b-4a83-8aef-9a90e61e21bc",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。估算销售额为 1,874,921.45 美元。金额与毛利率按产品标价及单位成本估算，不代表实际成交收入或净利润。",
+        "plan": {
+          "action": "query",
+          "metric": "revenue",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "revenue",
+          "label": "估算销售额",
+          "unit": "USD",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "1874921.45",
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "没有实际成交价、折扣、税费、运费、退货和历史价格。",
+            "产品价格已经是 USD，不再按订单币种重复换算。"
+          ],
+          "trace_id": "dff0675f-ca28-42ad-8be9-a47cdbf58c77",
+          "coverage_trace_id": "455e4cdc-6dad-48c8-a13b-6ca47ac093fe",
+          "sql": "SELECT SUM(`s`.`quantity` * `p`.`unit_price_usd`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1053,
+            "output_tokens": 49,
+            "duration_ms": 6175.83
+          }
+        ],
+        "elapsed_ms": 6343.05
+      }
+    },
+    {
+      "question": "2019年德国毛利是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "c8bb1ce1-b235-435c-9cba-38524cb38e08",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。估算毛利为 1,100,621.76 美元。金额与毛利率按产品标价及单位成本估算，不代表实际成交收入或净利润。",
+        "plan": {
+          "action": "query",
+          "metric": "gross_profit",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "gross_profit",
+          "label": "估算毛利",
+          "unit": "USD",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "1100621.76",
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "单位生产成本来自产品表，缺少历史成本和其他费用。"
+          ],
+          "trace_id": "7494f8ed-dde1-455a-8cde-2ad32f6f474c",
+          "coverage_trace_id": "12bd50bc-c3e6-4102-bf53-206f028db27d",
+          "sql": "SELECT SUM(`s`.`quantity` * (`p`.`unit_price_usd` - `p`.`unit_cost_usd`)) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1054,
+            "output_tokens": 49,
+            "duration_ms": 1103.17
+          }
+        ],
+        "elapsed_ms": 1299.74
+      }
+    },
+    {
+      "question": "2019年德国毛利率是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "960c379e-c750-4c8b-9ec8-7467aade5c25",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。估算毛利率为 58.70%。金额与毛利率按产品标价及单位成本估算，不代表实际成交收入或净利润。",
+        "plan": {
+          "action": "query",
+          "metric": "gross_margin",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "gross_margin",
+          "label": "估算毛利率",
+          "unit": "ratio",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "0.587023",
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "不能对每条明细或每个产品的毛利率做简单平均。",
+            "分母为零或无匹配交易时返回空值。"
+          ],
+          "trace_id": "13f9be51-b2d6-40b6-a62b-34d6e51e794b",
+          "coverage_trace_id": "a5e8f954-fb04-4d4c-bc8d-a0dc5ec52397",
+          "sql": "SELECT (SUM(`s`.`quantity` * (`p`.`unit_price_usd` - `p`.`unit_cost_usd`))) / NULLIF((SUM(`s`.`quantity` * `p`.`unit_price_usd`)), 0) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1053,
+            "output_tokens": 49,
+            "duration_ms": 1102.69
+          }
+        ],
+        "elapsed_ms": 1313.61
+      }
+    },
+    {
+      "question": "2019年德国订单数是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "6eeec674-e8ea-4b3f-9f33-0f0fe0257105",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。订单数为 892 单。",
+        "plan": {
+          "action": "query",
+          "metric": "order_count",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "order_count",
+          "label": "订单数",
+          "unit": "orders",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              892,
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据没有取消或退货状态，不能额外排除这些订单。"
+          ],
+          "trace_id": "f9f85b10-645a-4e9a-874e-e19c7f655a9f",
+          "coverage_trace_id": "2dd1fcfe-bce9-4095-bc7f-8700e1e4c769",
+          "sql": "SELECT COUNT(DISTINCT `s`.`order_number`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1054,
+            "output_tokens": 49,
+            "duration_ms": 1100.7
+          }
+        ],
+        "elapsed_ms": 1357.21
+      }
+    },
+    {
+      "question": "2019年德国活跃客户数是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "91155bbe-bd5c-4b56-844c-e1b53d4c70e0",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。活跃客户数为 657 位。",
+        "plan": {
+          "action": "query",
+          "metric": "active_customer",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "active_customer",
+          "label": "活跃客户数",
+          "unit": "customers",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              657,
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "活跃状态取决于本次选择的时间及其他筛选条件。"
+          ],
+          "trace_id": "84ca47ab-c891-4653-9773-2c959f32ae2a",
+          "coverage_trace_id": "acb33eba-05ba-4ba6-9e57-e6a50409d1f9",
+          "sql": "SELECT COUNT(DISTINCT `s`.`customer_key`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1055,
+            "output_tokens": 49,
+            "duration_ms": 1100.07
+          }
+        ],
+        "elapsed_ms": 1268.73
+      }
+    },
+    {
+      "question": "2019年德国销量是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "6317ff87-8377-4317-8dd3-96afa8b7a2d3",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。销量为 6,928 件。",
+        "plan": {
+          "action": "query",
+          "metric": "quantity",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "quantity",
+          "label": "销量",
+          "unit": "units",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "6928",
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据不包含退货数量，不能解释为扣除退货后的净销量。"
+          ],
+          "trace_id": "ff7b2fab-b097-4267-870b-3f1f2280bba1",
+          "coverage_trace_id": "be5abf0b-18d1-4c46-a2fb-e9b04d4c61d1",
+          "sql": "SELECT SUM(`s`.`quantity`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1053,
+            "output_tokens": 48,
+            "duration_ms": 1077.04
+          }
+        ],
+        "elapsed_ms": 1278.78
+      }
+    },
+    {
+      "question": "2019年德国按月统计销量",
+      "passed": true,
+      "response": {
+        "trace_id": "37a10a98-9056-4efd-9220-c5854dec73ce",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。已按所选维度返回 12 组销量，请查看明细表。",
+        "plan": {
+          "action": "query",
+          "metric": "quantity",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": "order_month",
+          "reason": null
+        },
+        "result": {
+          "metric_id": "quantity",
+          "label": "销量",
+          "unit": "units",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": "order_month",
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "dimension_value",
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "2019-01",
+              "713",
+              229
+            ],
+            [
+              "2019-02",
+              "600",
+              205
+            ],
+            [
+              "2019-03",
+              "458",
+              126
+            ],
+            [
+              "2019-04",
+              "63",
+              21
+            ],
+            [
+              "2019-05",
+              "608",
+              197
+            ],
+            [
+              "2019-06",
+              "501",
+              164
+            ],
+            [
+              "2019-07",
+              "629",
+              213
+            ],
+            [
+              "2019-08",
+              "537",
+              157
+            ],
+            [
+              "2019-09",
+              "497",
+              170
+            ],
+            [
+              "2019-10",
+              "665",
+              206
+            ],
+            [
+              "2019-11",
+              "658",
+              204
+            ],
+            [
+              "2019-12",
+              "999",
+              316
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据不包含退货数量，不能解释为扣除退货后的净销量。"
+          ],
+          "trace_id": "dce367f8-4290-4a48-ae07-d4a08e5664c0",
+          "coverage_trace_id": "e8380119-bab3-45e9-9edc-cf78648bb1ad",
+          "sql": "SELECT DATE_FORMAT(`s`.`order_date`, '%Y-%m') AS `dimension_value`, SUM(`s`.`quantity`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' GROUP BY DATE_FORMAT(`s`.`order_date`, '%Y-%m') ORDER BY `dimension_value` LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1054,
+            "output_tokens": 49,
+            "duration_ms": 1104.38
+          }
+        ],
+        "elapsed_ms": 1308.93
+      }
+    },
+    {
+      "question": "2019年德国按产品类别统计销量",
+      "passed": true,
+      "response": {
+        "trace_id": "fa2e9a6b-b27f-43c9-b8dd-fba250604c8f",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。已按所选维度返回 8 组销量，请查看明细表。",
+        "plan": {
+          "action": "query",
+          "metric": "quantity",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": "product_category",
+          "reason": null
+        },
+        "result": {
+          "metric_id": "quantity",
+          "label": "销量",
+          "unit": "units",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": "product_category",
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "dimension_value",
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "Audio",
+              "745",
+              240
+            ],
+            [
+              "Cameras and camcorders",
+              "605",
+              206
+            ],
+            [
+              "Cell phones",
+              "1234",
+              404
+            ],
+            [
+              "Computers",
+              "1762",
+              533
+            ],
+            [
+              "Games and Toys",
+              "895",
+              291
+            ],
+            [
+              "Home Appliances",
+              "386",
+              120
+            ],
+            [
+              "Music, Movies and Audio Books",
+              "1031",
+              328
+            ],
+            [
+              "TV and Video",
+              "270",
+              86
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据不包含退货数量，不能解释为扣除退货后的净销量。"
+          ],
+          "trace_id": "3843a427-2e5f-4d9c-9d8b-2cb82691d52f",
+          "coverage_trace_id": "bca51c07-a330-4224-9464-b8c9034720bf",
+          "sql": "SELECT `p`.`category` AS `dimension_value`, SUM(`s`.`quantity`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' GROUP BY `p`.`category` ORDER BY `dimension_value` LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1055,
+            "output_tokens": 49,
+            "duration_ms": 1095.77
+          }
+        ],
+        "elapsed_ms": 1277.05
+      }
+    },
+    {
+      "question": "2019年按国家统计销量",
+      "passed": true,
+      "response": {
+        "trace_id": "6f43ec5f-6322-499e-bc04-ca1816121ad4",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：全部。已按所选维度返回 8 组销量，请查看明细表。",
+        "plan": {
+          "action": "query",
+          "metric": "quantity",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": null,
+          "dimension": "customer_country",
+          "reason": null
+        },
+        "result": {
+          "metric_id": "quantity",
+          "label": "销量",
+          "unit": "units",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": null,
+          "dimension": "customer_country",
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "dimension_value",
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "Australia",
+              "3155",
+              1014
+            ],
+            [
+              "Canada",
+              "5718",
+              1799
+            ],
+            [
+              "France",
+              "1812",
+              560
+            ],
+            [
+              "Germany",
+              "6928",
+              2208
+            ],
+            [
+              "Italy",
+              "2681",
+              853
+            ],
+            [
+              "Netherlands",
+              "2484",
+              771
+            ],
+            [
+              "United Kingdom",
+              "7655",
+              2468
+            ],
+            [
+              "United States",
+              "38007",
+              11938
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据不包含退货数量，不能解释为扣除退货后的净销量。"
+          ],
+          "trace_id": "31c2d3ce-ff24-4361-baa1-ba7ab65dfa22",
+          "coverage_trace_id": "e2a232d8-0a49-4512-8919-54cdbcb17454",
+          "sql": "SELECT `c`.`country` AS `dimension_value`, SUM(`s`.`quantity`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' GROUP BY `c`.`country` ORDER BY `dimension_value` LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1053,
+            "output_tokens": 49,
+            "duration_ms": 1097.74
+          }
+        ],
+        "elapsed_ms": 1447.79
+      }
+    },
+    {
+      "question": "德国销售额是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "d05a4f6d-0c90-47a6-82d4-e1335c75cbbe",
+        "status": "clarify",
+        "answer": "请补充明确时间范围，例如“2019 年”或“2019 年 3 月”。数据覆盖 2016-01-01 至 2021-02-20。",
+        "plan": {
+          "action": "clarify",
+          "metric": null,
+          "start": null,
+          "end": null,
+          "country": null,
+          "dimension": null,
+          "reason": "missing_time"
+        },
+        "result": null,
+        "model": null,
+        "usage": [],
+        "elapsed_ms": 0.08
+      }
+    },
+    {
+      "question": "今年德国销量是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "2d481243-83b2-42ff-85bc-726f29d71ee0",
+        "status": "clarify",
+        "answer": "请把相对时间改成明确年月，例如“2019 年”。目前不会把历史样例自动解释为今年或去年。",
+        "plan": {
+          "action": "clarify",
+          "metric": null,
+          "start": null,
+          "end": null,
+          "country": null,
+          "dimension": null,
+          "reason": "relative_time"
+        },
+        "result": null,
+        "model": null,
+        "usage": [],
+        "elapsed_ms": 0.05
+      }
+    },
+    {
+      "question": "2026年德国订单数是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "c9b23452-cd41-4b42-95d1-02a21bae5a52",
+        "status": "ok",
+        "answer": "请求的时间超出数据覆盖范围（2016-01-01 至 2021-02-20），不能将缺少数据解释为零业务。",
+        "plan": {
+          "action": "query",
+          "metric": "order_count",
+          "start": "2026-01-01",
+          "end": "2027-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "order_count",
+          "label": "订单数",
+          "unit": "orders",
+          "status": "outside_data_coverage",
+          "start_inclusive": "2026-01-01",
+          "end_exclusive": "2027-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [],
+          "limit_reached": false,
+          "limitations": [
+            "数据没有取消或退货状态，不能额外排除这些订单。"
+          ],
+          "trace_id": "b3ee67e7-b57d-41fb-acce-b7197881560d",
+          "coverage_trace_id": "68445227-d169-412a-9047-e603c3072d3d",
+          "sql": "SELECT COUNT(DISTINCT `s`.`order_number`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2026-01-01' AND `s`.`order_date` < '2027-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1054,
+            "output_tokens": 49,
+            "duration_ms": 1099.24
+          }
+        ],
+        "elapsed_ms": 1260.71
+      }
+    },
+    {
+      "question": "2019年德国利润是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "ad103501-b730-4bd2-a3a7-187ae38f7c4d",
+        "status": "clarify",
+        "answer": "请选择要查询的指标：估算销售额、估算毛利、估算毛利率、订单数、活跃客户数或销量。",
+        "plan": {
+          "action": "clarify",
+          "metric": null,
+          "start": null,
+          "end": null,
+          "country": "Germany",
+          "dimension": null,
+          "reason": "missing_metric"
+        },
+        "result": null,
+        "model": "qwen3:8b",
+        "usage": [
+          {
+            "prompt_tokens": 1053,
+            "output_tokens": 32,
+            "duration_ms": 724.91
+          }
+        ],
+        "elapsed_ms": 801.65
+      }
+    },
+    {
+      "question": "2019年德国净利润是多少？",
+      "passed": true,
+      "response": {
+        "trace_id": "52c6e039-68e2-4534-a56d-598a23315cb3",
+        "status": "unsupported",
+        "answer": "当前仅支持六项已定义指标的查询与分组。净利润、实际成交价、个人信息、数据修改和同比环比等请求暂不支持。",
+        "plan": {
+          "action": "unsupported",
+          "metric": null,
+          "start": null,
+          "end": null,
+          "country": null,
+          "dimension": null,
+          "reason": "unsupported_request"
+        },
+        "result": null,
+        "model": null,
+        "usage": [],
+        "elapsed_ms": 0.06
+      }
+    },
+    {
+      "question": "删除所有订单",
+      "passed": true,
+      "response": {
+        "trace_id": "1ac12177-3ca8-4f83-82b0-f11495cea06d",
+        "status": "unsupported",
+        "answer": "当前仅支持六项已定义指标的查询与分组。净利润、实际成交价、个人信息、数据修改和同比环比等请求暂不支持。",
+        "plan": {
+          "action": "unsupported",
+          "metric": null,
+          "start": null,
+          "end": null,
+          "country": null,
+          "dimension": null,
+          "reason": "unsupported_request"
+        },
+        "result": null,
+        "model": null,
+        "usage": [],
+        "elapsed_ms": 0.04
+      }
+    }
+  ],
+  "passed": 15,
+  "total": 15
+}

@@ -1,0 +1,97 @@
+# 文件作用：阶段 2：正式业务指标字典。YAML 的缩进表示层级，冒号左侧是键、右侧是值，短横线表示列表项。配置记录规则，本身不执行 SQL。
+schema_version: 1  # 字典格式版本是 1；用于让程序识别它支持的配置结构，不是数据库版本。
+status: approved  # approved 表示口径已经由用户确认，可以用于生成查询。
+approval:  # 开始确认记录这个子字典，下一层多缩进两个空格。
+  confirmed_by: user  # 记录确认者类型为 user；对应本次用户已经给出的确认。
+  confirmed_on: '2026-09-09'  # 记录确认日期；加引号让 YAML 将它保持为字符串。
+dataset: kaggle_global_electronics_retailers  # 数据集标识，说明这些指标用于 Kaggle 的全球电子零售教学数据。
+reporting_currency: USD  # 报告金额统一使用美元 USD。
+time:  # 开始定义时间筛选规则。
+  field: s.order_date  # s 是 sales 的别名，order_date 是下单日；筛选日期按此字段。
+  interval: start_inclusive_end_exclusive  # 时间区间左闭右开：包含 start、不包含 end；可避免相邻年度边界重复。
+  missing_range: ask  # 缺少时间范围应请求补充；目前 query() 返回错误，由后续对话层接手询问。
+  relative_dates: ask_reference_date  # “今年”等相对时间要先确定参考日期；当前工具只接受明确的起止日期。
+market:  # 开始定义市场口径。
+  default_dimension: customer_country  # 市场默认按客户国家分组或筛选。
+  field: c.country  # c 是 customers 的别名；国家取自客户表，不是门店表。
+  countries:  # 开始列出当前允许传入的英文国家值。
+  - Australia  # 列表项 Australia，澳大利亚。
+  - Canada  # 列表项 Canada，加拿大。
+  - France  # 列表项 France，法国。
+  - Germany  # 列表项 Germany，德国；终端命令需使用此精确拼写。
+  - Italy  # 列表项 Italy，意大利。
+  - Netherlands  # 列表项 Netherlands，荷兰。
+  - United Kingdom  # 列表项 United Kingdom，英国；命令行传含空格的值需要引号。
+  - United States  # 列表项 United States，美国，同样需要注意命令行引号。
+base:  # 开始定义所有指标的基表。
+  table: sales  # 基表 sales，每行是一条销售明细。
+  alias: s  # 给 sales 起短别名 s，公式中用 s.quantity 引用数量。
+joins:  # 开始定义从销售明细连接其他表的规则。
+  p:  # 产品表的查询别名是 p。
+    table: products  # p 对应数据库 products 表。
+    'on': s.product_key = p.product_key  # 'on' 是 JOIN 条件：销售产品编号等于产品表编号；键加引号避免 YAML 1.1 把 on 识别成布尔值。
+  c:  # 客户表的查询别名是 c。
+    table: customers  # c 对应 customers 表。
+    'on': s.customer_key = c.customer_key  # 销售客户编号等于客户表编号，用于取得客户国家。
+dimensions:  # 开始定义可选分组维度；维度回答“按什么拆开看”。
+  customer_country:  # customer_country 是按客户国家分组的程序 ID。
+    label: 客户所在国家  # 该维度的中文显示名。
+    expression: c.country  # 实际分组字段为 c.country。
+  product_category:  # product_category 是按产品大类别分组的 ID。
+    label: 产品类别  # 该维度显示为“产品类别”。
+    expression: p.category  # 实际分组字段为产品表 category。
+  order_month:  # order_month 是按下单月份分组的 ID。
+    label: 下单月份  # 该维度显示为“下单月份”。
+    expression: DATE_FORMAT(s.order_date, '%Y-%m')  # 将下单日期格式化为 YYYY-MM，例如 2019-03；按该文本分组可得到月度统计。
+metrics:  # 开始六个业务指标的定义。下面的指标都有 ID、标签、类型、单位与说明。
+  revenue:  # revenue 是估算销售额的程序 ID，对应终端 --metric revenue。
+    label: 估算销售额  # 对外必须显示“估算销售额”，避免把标价推算当成交金额。
+    kind: additive  # additive 表示按行计算后加总的类别；当前校验主要要求聚合表达式，并非数学上证明任何公式都可加。
+    unit: USD  # 结果单位为美元。
+    expression: SUM(s.quantity * p.unit_price_usd)  # 每条销售数量乘对应产品美元标价，再用 SUM 加总。
+    description: 按产品美元标价估算的销售额，不代表实际成交额或财务确认收入。  # 明确这不是实际成交额，也不是财务确认收入。
+    limitations:  # 开始列出指标的使用限制，供返回结果时携带。
+    - 没有实际成交价、折扣、税费、运费、退货和历史价格。  # 数据没有实际成交价、折扣、税运费、退货或历史价格，因此只能估算。
+    - 产品价格已经是 USD，不再按订单币种重复换算。  # 产品字段已经以 USD 计价，不再根据订单币种重复换汇。
+  gross_profit:  # gross_profit 是估算毛利指标 ID。
+    label: 估算毛利  # 显示名必须包含“估算”。
+    kind: additive  # 毛利是逐行贡献再加总的指标。
+    unit: USD  # 单位为美元。
+    expression: SUM(s.quantity * (p.unit_price_usd - p.unit_cost_usd))  # 每行数量乘以“标价减单位成本”，然后求和；括号保证先减成本再乘数量。
+    description: 销售数量乘以美元标价与单位生产成本的差额，不代表净利润。  # 说明这个差额不是净利润，未减去所有经营费用。
+    limitations:  # 开始毛利限制列表。
+    - 单位生产成本来自产品表，缺少历史成本和其他费用。  # 产品表是当前样例单位成本，没有历史成本或完整费用数据。
+  gross_margin:  # gross_margin 是估算毛利率指标 ID。
+    label: 估算毛利率  # 显示名为估算毛利率。
+    kind: ratio  # ratio 表示用两个指标相除，不直接写独立的逐行平均公式。
+    unit: ratio  # 单位为无量纲比率；0.25 表示 25%，不是 0.25%。
+    numerator: gross_profit  # 分子引用 gross_profit，程序会展开其汇总表达式。
+    denominator: revenue  # 分母引用 revenue，程序会展开其汇总表达式。
+    description: 同一筛选范围内的汇总估算毛利除以汇总估算销售额；返回比率，例如 0.25 表示 25%。  # 分子分母必须使用相同筛选条件，最后用汇总毛利除以汇总销售额。
+    limitations:  # 开始毛利率限制列表。
+    - 不能对每条明细或每个产品的毛利率做简单平均。  # 不能把不同销售行或产品的毛利率简单平均，否则金额权重会丢失。
+    - 分母为零或无匹配交易时返回空值。  # 分母为 0 或没有匹配交易时返回空值，不凭空给出 0% 毛利率。
+  order_count:  # order_count 是订单数指标 ID。
+    label: 订单数  # 显示名为订单数。
+    kind: distinct_count  # distinct_count 表示去重计数。
+    unit: orders  # 单位是订单。
+    expression: COUNT(DISTINCT s.order_number)  # COUNT(DISTINCT s.order_number) 对订单号去重后计数，一张多商品订单仍只算一单。
+    description: 所选范围内出现的去重订单数；按类别分组后的订单数不可直接相加。  # 同一订单可能跨多个产品类别，所以各类别的去重订单数不能直接相加当全局订单数。
+    limitations:  # 开始订单数限制列表。
+    - 数据没有取消或退货状态，不能额外排除这些订单。  # 没有取消/退货状态字段，不能假装已经排除了取消订单。
+  active_customer:  # active_customer 是活跃客户数指标 ID。
+    label: 活跃客户数  # 显示名为活跃客户数。
+    kind: distinct_count  # 同样采用去重计数。
+    unit: customers  # 单位是客户。
+    expression: COUNT(DISTINCT s.customer_key)  # 只对符合筛选条件的销售明细中的客户编号去重计数。
+    description: 所选范围内至少有一条订单明细的去重客户数，不是客户表总行数。  # 该值不是客户表总人数，而是选定范围内有订单明细的客户数。
+    limitations:  # 开始活跃客户数的限制列表。
+    - 活跃状态取决于本次选择的时间及其他筛选条件。  # 改变时间、国家、产品分组，活跃客户范围也会随之改变。
+  quantity:  # quantity 是销量指标 ID。
+    label: 销量  # 中文显示名为销量。
+    kind: additive  # 数量可以逐明细加总。
+    unit: units  # 单位为商品件数 units。
+    expression: SUM(s.quantity)  # 对 sales.quantity 求和，不是 COUNT(*) 数明细行。
+    description: 所选范围内销售明细的商品数量合计。  # 解释这是筛选范围内全部销售明细的商品数量合计。
+    limitations:  # 开始销量限制列表。
+    - 数据不包含退货数量，不能解释为扣除退货后的净销量。  # 数据没有退货数量，不能称为扣除退货后的净销量。

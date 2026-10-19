@@ -1,0 +1,9 @@
+# 本地模型配置；数据库密码继续只保存在 .env，模型服务不读取数据库凭据。
+version: 1 # 配置格式版本。
+base_url: http://127.0.0.1:11434 # 客户端仅允许本机地址，拒绝云端 URL 与重定向。
+model: trade-agent-qwen3:8b-lora-v1 # 已合并回答风格 LoRA，并通过 GGUF Q4_K_M 导入本项目 Ollama。
+timeout_seconds: 120 # 含首次加载的单次本地推理等待上限。
+context_tokens: 8192 # 完整 SQL 需要容纳表结构、业务口径和最近会话；会增加 KV 缓存占用。
+output_tokens: 1024 # SQL 生成上限；回答生成仍单独限制为 384。
+temperature: 0.1 # 初始低随机性设置，尚未声称是通过对照实验得到的最优值。
+seed: 42 # 固定随机种子有助于复现，但不同硬件/运行版本仍可能有差异。

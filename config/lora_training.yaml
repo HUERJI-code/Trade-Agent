@@ -1,0 +1,17 @@
+# 首轮固定配置，不表示已经通过参数搜索找到了最优值。
+model_id: Qwen/Qwen3-8B # 与项目现有 Ollama 模型属于同一官方模型。
+model_revision: b968826d9c46dd6066d109eabc6255188de91218 # 固定 Hugging Face 权重版本。
+model_directory: models/huggingface/Qwen3-8B # 完整训练基座在 D 盘项目中。
+dataset_directory: Data/answer_style/v1 # 已核验的风格消息数据。
+output_directory: outputs/training/answer_style_qwen3_8b_sft_v1 # SFTTrainer 的检查点、适配器和日志都在 D 盘。
+max_length: 2048 # 逐条检查长度；超过上限时报错，不截掉问题或答案。
+epochs: 2 # 首轮训练两遍训练集。
+learning_rate: 0.0001 # 只更新 LoRA 适配器的学习率。
+lora_r: 8 # 低秩矩阵的秩，控制可训练参数规模。
+lora_alpha: 16 # LoRA 更新缩放系数。
+lora_dropout: 0.05 # 训练期间的适配器 dropout。
+gradient_accumulation_steps: 16 # 每次只放一条样本，累积 16 条后更新参数。
+warmup_ratio: 0.05 # 开始时逐步提高学习率。
+seed: 42 # 固定打乱顺序和初始化随机数。
+save_steps: 10 # 每 10 个优化器步骤保存可恢复检查点。
+logging_steps: 1 # 每一步保存进度，方便用户查看。

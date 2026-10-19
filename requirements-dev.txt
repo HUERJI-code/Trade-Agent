@@ -1,0 +1,7 @@
+# 文件作用：开发与测试环境依赖清单。
+# -r 表示同时包含 requirements.txt 中的全部运行依赖。
+-r requirements.txt
+# 额外安装指定版本 pytest，用来执行 tests 下的自动化测试。
+pytest==7.4.4
+# httpx 供 FastAPI TestClient 在进程内验证接口，无需占用端口。
+httpx==0.28.1

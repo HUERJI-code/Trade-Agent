@@ -1,0 +1,38 @@
+# 文件作用：告诉 Git 默认忽略哪些未跟踪文件。它不删除本地文件，也不能让已经提交的秘密自动从历史中消失。
+# 忽略存真实数据库凭据的 .env。
+.env
+# 忽略 .env.local 等其他环境配置变体。
+.env.*
+# 感叹号表示例外：允许不含真实凭据的 .env.example 被跟踪。
+!.env.example
+# 忽略虚拟环境和已安装第三方库，环境通过依赖清单重建。
+.venv/
+# 独立训练环境与训练输出在 D 盘，依赖清单和训练代码仍保留。
+.venv-training/
+outputs/training/
+# 忽略 Python 编译缓存。
+__pycache__/
+# 忽略 pytest 运行缓存。
+.pytest_cache/
+# 忽略本地查询日志。
+logs/
+# 忽略 JetBrains IDE 的本机项目设置。
+.idea/
+# 忽略临时工作目录，包括生成本讲解的辅助脚本。
+work/
+# 忽略原始数据 ZIP，避免将大数据包直接提交到 Git。
+Data/archive.zip
+# 忽略由源数据生成的大型导入 SQL；生成它的脚本仍可保留在版本控制中。
+Data/prepared/*.sql
+# 本机推理运行库与模型权重保存在 D 盘项目内，不提交到源码仓库。
+.runtime/
+models/
+# 前端依赖和构建产物可从 package-lock.json 与源码重建。
+frontend/node_modules/
+frontend/dist/
+
+# 本地会话数据库和评估审计日志不提交；评估报告仍保留。
+*.sqlite3
+*.sqlite3-*
+outputs/evaluation/**/agent_audit.jsonl
+outputs/evaluation/**/audit.jsonl

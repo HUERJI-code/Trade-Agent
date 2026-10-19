@@ -1,0 +1,115 @@
+{
+  "model": "trade-agent-qwen3:8b-lora-v1",
+  "passed": true,
+  "cases": [
+    {
+      "metric": "revenue",
+      "variant": "original",
+      "question": "2019年德国的销售额是多少？",
+      "expected_display": "158,820.45 美元",
+      "generated": "2019年，德国的估算销售额为 **158,820.45 美元**。这是按产品标价计算的金额。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "revenue",
+      "variant": "changed",
+      "question": "2019年德国的销售额是多少？",
+      "expected_display": "123,456.78 美元",
+      "generated": "2019年，德国的估算销售额为 **123,456.78 美元**。这是按产品标价计算的金额。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "gross_profit",
+      "variant": "original",
+      "question": "帮我查一下2019年德国的毛利。",
+      "expected_display": "1,100,621.76 美元",
+      "generated": "2019年，德国的估算毛利为 **1,100,621.76 美元**。这是销售数量乘以产品标价与单位生产成本的差额后的结果。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "gross_profit",
+      "variant": "changed",
+      "question": "帮我查一下2019年德国的毛利。",
+      "expected_display": "-1,234.56 美元",
+      "generated": "2019年，德国的估算毛利为 **-1,234.56 美元**。由于缺少历史成本和其他费用，这个结果还没有扣除其他经营费用。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "gross_margin",
+      "variant": "original",
+      "question": "2019年德国的毛利率是多少？",
+      "expected_display": "58.70%",
+      "generated": "2019年，按汇总估算毛利除以汇总估算销售额计算，德国的估算毛利率为 **58.70%**。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "gross_margin",
+      "variant": "changed",
+      "question": "2019年德国的毛利率是多少？",
+      "expected_display": "12.34%",
+      "generated": "2019年，按汇总估算毛利除以汇总估算销售额计算，德国的估算毛利率为 **12.34%**。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "order_count",
+      "variant": "original",
+      "question": "2019年德国的订单数是多少？",
+      "expected_display": "892 单",
+      "generated": "2019年，德国共计 **892 单**。当同一订单包含多件商品时，也只计一单。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "order_count",
+      "variant": "changed",
+      "question": "2019年德国的订单数是多少？",
+      "expected_display": "123 单",
+      "generated": "2019年，德国共计 **123 单**。当同一订单包含多件商品时，也只计一单。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "active_customer",
+      "variant": "original",
+      "question": "帮我查一下2019年德国的活跃客户数。",
+      "expected_display": "657 位",
+      "generated": "2019年，德国有 **657 位**客户下过单。当同一客户多次下单时，也只计一位。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "active_customer",
+      "variant": "changed",
+      "question": "帮我查一下2019年德国的活跃客户数。",
+      "expected_display": "45 位",
+      "generated": "2019年，德国共有 **45 位**客户下过单。当同一客户多次下单时，也只计一位。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "quantity",
+      "variant": "original",
+      "question": "2019年德国的销量是多少？",
+      "expected_display": "6,928 件",
+      "generated": "2019年，德国共售出 **6,928 件**商品。由于数据不包含退货数量，这个结果没有扣除退货。",
+      "passed": true,
+      "issues": []
+    },
+    {
+      "metric": "quantity",
+      "variant": "changed",
+      "question": "2019年德国的销量是多少？",
+      "expected_display": "678 件",
+      "generated": "2019年，德国共售出 **678 件**商品。由于数据不包含退货数量，这个结果没有扣除退货。",
+      "passed": true,
+      "issues": []
+    }
+  ],
+  "note": "六个已知问题各测试原事实和替换事实；不是独立问数泛化准确率。"
+}

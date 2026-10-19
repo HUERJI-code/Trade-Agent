@@ -1,0 +1,75 @@
+{
+  "model": "qwen3:8b",
+  "model_digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+  "samples": 206,
+  "dataset_sha256": "ae902a312fa8d7555b89447c30a86c0e4359b86ac2e2813e3da28d756d61bc12",
+  "generation": {
+    "temperature": 0,
+    "seed": 42,
+    "num_ctx": 4096,
+    "num_predict": 384
+  },
+  "rates": {
+    "automatic_fact_checks_pass": 0.9805825242718447,
+    "reference_numbers_match": 0.6699029126213593,
+    "exact_reference_match": 0.0,
+    "concise": 0.9805825242718447,
+    "bold_main_value": 0.2621359223300971,
+    "margin_basis_before_value": 0.912621359223301
+  },
+  "applicable_style_rates": {
+    "bold_main_value": {
+      "count": 152,
+      "rate": 0.0
+    },
+    "margin_basis_before_value": {
+      "count": 18,
+      "rate": 0.0
+    }
+  },
+  "issue_counts": {
+    "missing_estimate": 2,
+    "unexpected_number": 2,
+    "unexpected_country": 2,
+    "missing_unavailable_boundary": 2
+  },
+  "by_status": {
+    "clarify": {
+      "count": 6,
+      "automatic_fact_checks_pass": 1.0
+    },
+    "no_matching_transactions": {
+      "count": 12,
+      "automatic_fact_checks_pass": 1.0
+    },
+    "ok": {
+      "count": 148,
+      "automatic_fact_checks_pass": 0.9864864864864865
+    },
+    "outside_data_coverage": {
+      "count": 18,
+      "automatic_fact_checks_pass": 1.0
+    },
+    "partial_coverage": {
+      "count": 6,
+      "automatic_fact_checks_pass": 1.0
+    },
+    "query_failed": {
+      "count": 4,
+      "automatic_fact_checks_pass": 1.0
+    },
+    "truncated": {
+      "count": 2,
+      "automatic_fact_checks_pass": 0.0
+    },
+    "undefined_metric": {
+      "count": 6,
+      "automatic_fact_checks_pass": 1.0
+    },
+    "unsupported": {
+      "count": 4,
+      "automatic_fact_checks_pass": 1.0
+    }
+  },
+  "note": "自动规则与参考答案匹配率，不等于业务准确率；同一事实两种问法相关，需人工检查失败样本和反事实样本。"
+}

@@ -1,0 +1,51 @@
+{
+  "trace_id": "ed32fec0-d392-4301-848b-202a5f744c31",
+  "status": "ok",
+  "answer": "2019_估算销售额_美元：**1874921.45**；2018_估算销售额_美元：**1336981.32**；差额_美元：**537940.13**。",
+  "plan": {
+    "action": "query",
+    "mode": "sql",
+    "sql": "SELECT ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2019_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2018_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END) - SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `差额_美元` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `c`.`country` = 'Germany' AND `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2020-01-01' LIMIT 2000"
+  },
+  "result": {
+    "trace_id": "6dafa376-5783-4653-b644-972b0a7c736c",
+    "columns": [
+      "2019_估算销售额_美元",
+      "2018_估算销售额_美元",
+      "差额_美元"
+    ],
+    "rows": [
+      [
+        "1874921.45",
+        "1336981.32",
+        "537940.13"
+      ]
+    ],
+    "row_count": 1,
+    "row_limit": 2000,
+    "limit_applied": true,
+    "limit_reached": false,
+    "elapsed_ms": 66.23,
+    "sql": "SELECT ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2019_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2018_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END) - SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `差额_美元` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `c`.`country` = 'Germany' AND `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2020-01-01' LIMIT 2000",
+    "kind": "sql",
+    "status": "ok",
+    "label": "查询结果",
+    "data_coverage": {
+      "first_date": "2016-01-01",
+      "last_date": "2021-02-20"
+    },
+    "limitations": [
+      "金额按产品美元标价及单位成本估算，不代表实际成交收入或净利润。",
+      "没有返回记录或聚合值为空，不等于实际业务为零；查询条件与计算口径请结合执行 SQL 核对。"
+    ]
+  },
+  "model": "trade-agent-qwen3:8b-lora-v1",
+  "usage": [
+    {
+      "prompt_tokens": 2226,
+      "output_tokens": 346
+    }
+  ],
+  "planner_source": "llm_sql",
+  "elapsed_ms": 14021.06
+}

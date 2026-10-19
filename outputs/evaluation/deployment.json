@@ -1,0 +1,12 @@
+{
+  "status": "deployed",
+  "model": "trade-agent-qwen3:8b-lora-v1",
+  "digest": "7975488c9445b62a910f3ac1cf1727816c763cddbb4c05043763e418cda61d22",
+  "size_bytes": 5027785558,
+  "quantization": "Q4_K_M",
+  "answer_model_enabled": true,
+  "time": "2026-09-10T13:30:54.840445+08:00",
+  "web": "http://127.0.0.1:8000/",
+  "live_report": "outputs/evaluation/live_lora_release/report.json",
+  "offline_tests": 234
+}

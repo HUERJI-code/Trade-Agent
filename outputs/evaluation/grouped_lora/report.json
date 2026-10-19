@@ -1,0 +1,280 @@
+{
+  "passed": false,
+  "cases": [
+    {
+      "question": "2019年德国按月统计销量",
+      "passed": false,
+      "response": {
+        "trace_id": "b364088c-459f-444f-80e1-2c579f75cf18",
+        "status": "error",
+        "answer": "模型两次未能给出可靠参数，未执行查询。请明确一个指标、时间范围及国家。",
+        "plan": null,
+        "result": null,
+        "model": "trade-agent-qwen3:8b-lora-v1",
+        "usage": [
+          {
+            "prompt_tokens": 1125,
+            "output_tokens": 63,
+            "duration_ms": 1597.57
+          },
+          {
+            "prompt_tokens": 1177,
+            "output_tokens": 63,
+            "duration_ms": 1536.21
+          }
+        ],
+        "error": "invalid_plan",
+        "elapsed_ms": 4311.01,
+        "effective_question": "2019年德国按月统计销量",
+        "inherited_conditions": [],
+        "conversation_id": "94030515-6869-4d48-a8ad-3e424ad0334c"
+      }
+    },
+    {
+      "question": "2019年按国家统计销售额",
+      "passed": false,
+      "response": {
+        "trace_id": "894718b9-a446-4b43-bda6-07765fc223a8",
+        "status": "error",
+        "answer": "模型两次未能给出可靠参数，未执行查询。请明确一个指标、时间范围及国家。",
+        "plan": null,
+        "result": null,
+        "model": "trade-agent-qwen3:8b-lora-v1",
+        "usage": [
+          {
+            "prompt_tokens": 1124,
+            "output_tokens": 64,
+            "duration_ms": 1536.13
+          },
+          {
+            "prompt_tokens": 1162,
+            "output_tokens": 64,
+            "duration_ms": 1558.25
+          }
+        ],
+        "error": "invalid_plan",
+        "elapsed_ms": 4249.41,
+        "effective_question": "2019年按国家统计销售额",
+        "inherited_conditions": [],
+        "conversation_id": "e0a142f3-653e-4815-b620-222ba1df142e"
+      }
+    },
+    {
+      "question": "2019年德国按产品类别统计订单数",
+      "passed": true,
+      "response": {
+        "trace_id": "fd7e7deb-be8d-4600-8a00-b1e1ed387b90",
+        "status": "ok",
+        "answer": "2019年，德国 **电脑** 类产品订单最多，为 **412 单**；**手机** 类产品为 **326 单**。当同一订单包含多件商品时，也只计一单。",
+        "plan": {
+          "action": "query",
+          "metric": "order_count",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": "product_category",
+          "reason": null
+        },
+        "result": {
+          "metric_id": "order_count",
+          "label": "订单数",
+          "unit": "orders",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": "product_category",
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "dimension_value",
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "Audio",
+              217,
+              240
+            ],
+            [
+              "Cameras and camcorders",
+              189,
+              206
+            ],
+            [
+              "Cell phones",
+              326,
+              404
+            ],
+            [
+              "Computers",
+              412,
+              533
+            ],
+            [
+              "Games and Toys",
+              237,
+              291
+            ],
+            [
+              "Home Appliances",
+              108,
+              120
+            ],
+            [
+              "Music, Movies and Audio Books",
+              273,
+              328
+            ],
+            [
+              "TV and Video",
+              82,
+              86
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据没有取消或退货状态，不能额外排除这些订单。"
+          ],
+          "trace_id": "29403e79-17dd-481e-8301-a3070f39376b",
+          "coverage_trace_id": "40c6498f-87ef-404d-87a9-5b21f71ab8b7",
+          "sql": "SELECT `p`.`category` AS `dimension_value`, COUNT(DISTINCT `s`.`order_number`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' GROUP BY `p`.`category` ORDER BY `dimension_value` LIMIT 2000"
+        },
+        "model": "trade-agent-qwen3:8b-lora-v1",
+        "usage": [
+          {
+            "prompt_tokens": 1127,
+            "output_tokens": 64,
+            "duration_ms": 1545.77
+          }
+        ],
+        "planner_source": "langchain_tool_call",
+        "elapsed_ms": 2287.56,
+        "effective_question": "2019年德国按产品类别统计订单数",
+        "inherited_conditions": [],
+        "answer_source": "lora_model",
+        "answer_checks": [],
+        "answer_model": "trade-agent-qwen3:8b-lora-v1",
+        "conversation_id": "059ecc2b-a290-4102-b896-ca54d8fd41c5"
+      }
+    },
+    {
+      "question": "2019年哪个国家销售额最高？",
+      "passed": true,
+      "response": {
+        "trace_id": "81cd6396-13f4-43d7-99bf-4abf83dec1e4",
+        "status": "ok",
+        "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：全部。在所选期间有交易且指标可计算的 8 个客户国家中，估算销售额最高的是美国，为 10,133,066.38 美元。金额与毛利率按产品标价及单位成本估算，不代表实际成交收入或净利润。",
+        "plan": {
+          "action": "query",
+          "metric": "revenue",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": null,
+          "dimension": "customer_country",
+          "reason": null,
+          "sort_order": "desc"
+        },
+        "result": {
+          "metric_id": "revenue",
+          "label": "估算销售额",
+          "unit": "USD",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": null,
+          "dimension": "customer_country",
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "dimension_value",
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "United States",
+              "10133066.38",
+              11938
+            ],
+            [
+              "United Kingdom",
+              "2041930.51",
+              2468
+            ],
+            [
+              "Germany",
+              "1874921.45",
+              2208
+            ],
+            [
+              "Canada",
+              "1502227.97",
+              1799
+            ],
+            [
+              "Australia",
+              "890276.61",
+              1014
+            ],
+            [
+              "Italy",
+              "707836.08",
+              853
+            ],
+            [
+              "Netherlands",
+              "639132.95",
+              771
+            ],
+            [
+              "France",
+              "474990.53",
+              560
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "没有实际成交价、折扣、税费、运费、退货和历史价格。",
+            "产品价格已经是 USD，不再按订单币种重复换算。"
+          ],
+          "trace_id": "daba4824-cc78-4b59-bf28-98ac88315468",
+          "coverage_trace_id": "36d955d5-4718-4044-a239-f6a40594bc7d",
+          "sql": "SELECT `c`.`country` AS `dimension_value`, SUM(`s`.`quantity` * `p`.`unit_price_usd`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' GROUP BY `c`.`country` ORDER BY `dimension_value` LIMIT 2000",
+          "ranking": {
+            "operation": "country_extreme",
+            "sort_order": "desc",
+            "winners": [
+              [
+                "United States",
+                "10133066.38",
+                11938
+              ]
+            ],
+            "compared_groups": 8,
+            "null_groups": 0,
+            "method": "Decimal comparison after complete grouped SQL result"
+          }
+        },
+        "model": null,
+        "usage": [],
+        "planner_source": "country_ranking_rule",
+        "elapsed_ms": 262.26,
+        "effective_question": "2019年哪个国家销售额最高？",
+        "inherited_conditions": [],
+        "answer_source": "verified_template_fallback",
+        "answer_checks": [
+          "internal_content"
+        ],
+        "conversation_id": "4c3ae856-3884-4499-b2a6-19be3d956c78"
+      }
+    }
+  ]
+}

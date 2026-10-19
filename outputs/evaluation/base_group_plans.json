@@ -1,0 +1,137 @@
+[
+  {
+    "question": "2019年德国按月统计销量",
+    "response": {
+      "trace_id": "2d7136af-9335-44a6-9157-d743df4e3427",
+      "status": "error",
+      "answer": "模型两次未能给出可靠参数，未执行查询。请明确一个指标、时间范围及国家。",
+      "plan": null,
+      "result": null,
+      "model": "qwen3:8b",
+      "usage": [
+        {
+          "prompt_tokens": 1125,
+          "output_tokens": 63,
+          "duration_ms": 6941.54
+        },
+        {
+          "prompt_tokens": 1177,
+          "output_tokens": 63,
+          "duration_ms": 1587.84
+        }
+      ],
+      "error": "invalid_plan",
+      "elapsed_ms": 10162.13
+    }
+  },
+  {
+    "question": "2019年按国家统计销售额",
+    "response": {
+      "trace_id": "a5d7fdd6-3b01-4f83-b866-0fc7e9f2c59b",
+      "status": "error",
+      "answer": "模型两次未能给出可靠参数，未执行查询。请明确一个指标、时间范围及国家。",
+      "plan": null,
+      "result": null,
+      "model": "qwen3:8b",
+      "usage": [],
+      "error": "invalid_plan",
+      "elapsed_ms": 4639.1
+    }
+  },
+  {
+    "question": "2019年德国按产品类别统计订单数",
+    "response": {
+      "trace_id": "98d64c16-4c54-4f60-be31-002580e071b2",
+      "status": "ok",
+      "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：Germany。已按所选维度返回 8 组订单数，请查看明细表。",
+      "plan": {
+        "action": "query",
+        "metric": "order_count",
+        "start": "2019-01-01",
+        "end": "2020-01-01",
+        "country": "Germany",
+        "dimension": "product_category",
+        "reason": null
+      },
+      "result": {
+        "metric_id": "order_count",
+        "label": "订单数",
+        "unit": "orders",
+        "status": "ok",
+        "start_inclusive": "2019-01-01",
+        "end_exclusive": "2020-01-01",
+        "country": "Germany",
+        "dimension": "product_category",
+        "data_coverage": {
+          "first_date": "2016-01-01",
+          "last_date": "2021-02-20",
+          "partial": false
+        },
+        "columns": [
+          "dimension_value",
+          "metric_value",
+          "matching_sales_lines"
+        ],
+        "rows": [
+          [
+            "Audio",
+            217,
+            240
+          ],
+          [
+            "Cameras and camcorders",
+            189,
+            206
+          ],
+          [
+            "Cell phones",
+            326,
+            404
+          ],
+          [
+            "Computers",
+            412,
+            533
+          ],
+          [
+            "Games and Toys",
+            237,
+            291
+          ],
+          [
+            "Home Appliances",
+            108,
+            120
+          ],
+          [
+            "Music, Movies and Audio Books",
+            273,
+            328
+          ],
+          [
+            "TV and Video",
+            82,
+            86
+          ]
+        ],
+        "limit_reached": false,
+        "limitations": [
+          "数据没有取消或退货状态，不能额外排除这些订单。"
+        ],
+        "trace_id": "d4151e84-d413-4b95-b015-9645ac61b2f0",
+        "coverage_trace_id": "dbee29f6-defd-4bf7-b705-75f1bcb07c79",
+        "sql": "SELECT `p`.`category` AS `dimension_value`, COUNT(DISTINCT `s`.`order_number`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' GROUP BY `p`.`category` ORDER BY `dimension_value` LIMIT 2000"
+      },
+      "model": "qwen3:8b",
+      "usage": [
+        {
+          "prompt_tokens": 1127,
+          "output_tokens": 64,
+          "duration_ms": 1596.77
+        }
+      ],
+      "planner_source": "langchain_tool_call",
+      "elapsed_ms": 2626.21
+    }
+  }
+]

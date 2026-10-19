@@ -1,0 +1,142 @@
+{
+  "id": "c3a43e24-8755-4417-bec4-586637569719",
+  "history": [
+    {
+      "question": "2019年德国毛利率是多少？",
+      "response": {
+        "trace_id": "b9b86a90-215a-49e3-9913-2b8725238ad0",
+        "status": "ok",
+        "answer": "2019年，按汇总估算毛利除以汇总估算销售额计算，德国的估算毛利率为 **58.70%**。",
+        "plan": {
+          "action": "query",
+          "metric": "gross_margin",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "gross_margin",
+          "label": "估算毛利率",
+          "unit": "ratio",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              "0.587023",
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "不能对每条明细或每个产品的毛利率做简单平均。",
+            "分母为零或无匹配交易时返回空值。"
+          ],
+          "trace_id": "e1676117-d49c-40f6-8754-287c1ff2c2a7",
+          "coverage_trace_id": "1b6c73a0-38ce-4387-bb04-ec70a118c70a",
+          "sql": "SELECT (SUM(`s`.`quantity` * (`p`.`unit_price_usd` - `p`.`unit_cost_usd`))) / NULLIF((SUM(`s`.`quantity` * `p`.`unit_price_usd`)), 0) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "trade-agent-qwen3:8b-lora-v1",
+        "usage": [
+          {
+            "prompt_tokens": 1217,
+            "output_tokens": 57,
+            "duration_ms": 1604.35
+          }
+        ],
+        "planner_source": "langchain_tool_call",
+        "elapsed_ms": 2863.19,
+        "effective_question": "2019年德国毛利率是多少？",
+        "inherited_conditions": [],
+        "answer_source": "lora_model",
+        "answer_checks": [],
+        "answer_model": "trade-agent-qwen3:8b-lora-v1"
+      }
+    },
+    {
+      "question": "订单数呢？",
+      "response": {
+        "trace_id": "b9c26b2f-8560-4586-a324-103ce172d69c",
+        "status": "ok",
+        "answer": "2019年，德国共计 **892 单**。当同一订单包含多件商品时，也只计一单。",
+        "plan": {
+          "action": "query",
+          "metric": "order_count",
+          "start": "2019-01-01",
+          "end": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "reason": null
+        },
+        "result": {
+          "metric_id": "order_count",
+          "label": "订单数",
+          "unit": "orders",
+          "status": "ok",
+          "start_inclusive": "2019-01-01",
+          "end_exclusive": "2020-01-01",
+          "country": "Germany",
+          "dimension": null,
+          "data_coverage": {
+            "first_date": "2016-01-01",
+            "last_date": "2021-02-20",
+            "partial": false
+          },
+          "columns": [
+            "metric_value",
+            "matching_sales_lines"
+          ],
+          "rows": [
+            [
+              892,
+              2208
+            ]
+          ],
+          "limit_reached": false,
+          "limitations": [
+            "数据没有取消或退货状态，不能额外排除这些订单。"
+          ],
+          "trace_id": "5f7c2edb-bade-4cf4-a41c-8478654af182",
+          "coverage_trace_id": "596abebc-2bbc-46d6-916a-3f95f45d87ae",
+          "sql": "SELECT COUNT(DISTINCT `s`.`order_number`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' AND `c`.`country` = 'Germany' LIMIT 2000"
+        },
+        "model": "trade-agent-qwen3:8b-lora-v1",
+        "usage": [
+          {
+            "prompt_tokens": 1246,
+            "output_tokens": 64,
+            "duration_ms": 1658.84
+          },
+          {
+            "prompt_tokens": 1297,
+            "output_tokens": 57,
+            "duration_ms": 1475.53
+          }
+        ],
+        "planner_source": "langchain_tool_call",
+        "elapsed_ms": 4808.23,
+        "effective_question": "订单数呢？；时间从2019-01-01至2020-01-01（不含结束日）；客户国家：Germany",
+        "inherited_conditions": [
+          "time",
+          "country"
+        ],
+        "answer_source": "lora_model",
+        "answer_checks": [],
+        "answer_model": "trade-agent-qwen3:8b-lora-v1"
+      }
+    }
+  ]
+}

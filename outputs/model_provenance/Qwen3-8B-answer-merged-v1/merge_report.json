@@ -1,0 +1,14 @@
+{
+  "status": "merged",
+  "base_revision": "b968826d9c46dd6066d109eabc6255188de91218",
+  "adapter": "D:\\Codex\\Trade Agent\\outputs\\training\\answer_style_qwen3_8b_sft_v1\\adapter",
+  "training_steps": 88,
+  "merge_dtype": "bfloat16",
+  "export_dtype": "float16",
+  "adapter_sha256": "7e983164d4a344ca256ba2194fe13e758a154c9aa84b23456a48fe8d045e9639",
+  "merged_layers": 252,
+  "tensor_count": 399,
+  "shards": 18,
+  "method": "per-layer PEFT merge_and_unload(safe_merge=True)",
+  "original_base_preserved": true
+}

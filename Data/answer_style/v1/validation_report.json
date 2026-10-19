@@ -1,0 +1,93 @@
+{
+  "samples": 1110,
+  "fact_queries": 401,
+  "split_groups_disjoint": true,
+  "duplicate_inputs": 0,
+  "approved_examples_exact": true,
+  "split_stats": {
+    "train": {
+      "count": 698,
+      "scenes": {
+        "partial_coverage": 108,
+        "country_extreme": 72,
+        "missing_time": 14,
+        "scalar": 324,
+        "net_profit_unavailable": 12,
+        "undefined_metric": 18,
+        "zero_orders": 18,
+        "tied_extreme": 6,
+        "outside_data_coverage": 18,
+        "counterfactual_value": 18,
+        "monthly_table": 24,
+        "truncated": 6,
+        "query_failed": 12,
+        "no_matching_transactions": 18,
+        "partial_coverage_simulated": 18,
+        "missing_metric": 12
+      },
+      "sources": {
+        "database": 546,
+        "authored_flow": 50,
+        "synthetic": 102
+      }
+    },
+    "validation": {
+      "count": 206,
+      "scenes": {
+        "scalar": 108,
+        "missing_metric": 4,
+        "country_extreme": 24,
+        "counterfactual_value": 6,
+        "monthly_table": 8,
+        "zero_orders": 6,
+        "partial_coverage_simulated": 6,
+        "no_matching_transactions": 6,
+        "outside_data_coverage": 18,
+        "missing_time": 2,
+        "net_profit_unavailable": 4,
+        "undefined_metric": 6,
+        "query_failed": 4,
+        "truncated": 2,
+        "tied_extreme": 2
+      },
+      "sources": {
+        "database": 158,
+        "authored_flow": 14,
+        "synthetic": 34
+      }
+    },
+    "test": {
+      "count": 206,
+      "scenes": {
+        "scalar": 108,
+        "missing_metric": 4,
+        "country_extreme": 24,
+        "counterfactual_value": 6,
+        "monthly_table": 8,
+        "zero_orders": 6,
+        "partial_coverage_simulated": 6,
+        "no_matching_transactions": 6,
+        "outside_data_coverage": 18,
+        "missing_time": 2,
+        "net_profit_unavailable": 4,
+        "undefined_metric": 6,
+        "query_failed": 4,
+        "truncated": 2,
+        "tied_extreme": 2
+      },
+      "sources": {
+        "database": 158,
+        "authored_flow": 14,
+        "synthetic": 34
+      }
+    }
+  },
+  "files_sha256": {
+    "train.json": "0af8ddb7bd4cbad9701530e484ac123e6769e359c495973c2d991c5efc9dadf4",
+    "train.jsonl": "3c76c4c16c051e5a63284992ee87fc8e2bd12b249a5cab909957abe5f5ce1a59",
+    "validation.json": "2661f59b6704d8d435741206c5511e13f829e0036c4cbf0c2f76e5e771aeefe4",
+    "validation.jsonl": "d2bc98584935ae29fccf24f7ba87080416fe682f36f5fbc70a3c9424b4f5876d",
+    "test.json": "ae902a312fa8d7555b89447c30a86c0e4359b86ac2e2813e3da28d756d61bc12",
+    "test.jsonl": "844f7f6909137acc33f19f130ab1761633e8932e54158b521e6652beeb143094"
+  }
+}

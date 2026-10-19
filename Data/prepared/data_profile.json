@@ -1,0 +1,100 @@
+{
+  "database": "trade_agent_demo",
+  "source": "https://www.kaggle.com/datasets/bhavikjikadara/global-electronics-retailers",
+  "archive_sha256": "35904ac10d458e0e7fd156967442759c5778b56d0950fe1d2538ee315d0bcc39",
+  "tables": {
+    "customers": {
+      "file": "Customers.csv",
+      "rows": 15266,
+      "encoding": "cp1252",
+      "sha256": "b508818ac86fae2059bd315c38a76396c3bb2fcbdfce3217a1c436bf2a4638eb",
+      "nulls": {
+        "customer_key": 0,
+        "gender": 0,
+        "customer_name": 0,
+        "city": 0,
+        "state_code": 0,
+        "state": 0,
+        "zip_code": 0,
+        "country": 0,
+        "continent": 0,
+        "birthday": 0
+      }
+    },
+    "products": {
+      "file": "Products.csv",
+      "rows": 2517,
+      "encoding": "utf-8-sig",
+      "sha256": "d6ba42db0aa64c547a2f1f5a3e73cc19e6b1260c4702767a003a11ca2927a4fe",
+      "nulls": {
+        "product_key": 0,
+        "product_name": 0,
+        "brand": 0,
+        "color": 0,
+        "unit_cost_usd": 0,
+        "unit_price_usd": 0,
+        "subcategory_key": 0,
+        "subcategory": 0,
+        "category_key": 0,
+        "category": 0
+      }
+    },
+    "stores": {
+      "file": "Stores.csv",
+      "rows": 67,
+      "encoding": "utf-8-sig",
+      "sha256": "21ebb499c905037ccf12a3602d2c47c4bf6c5ef706fba3a4fbc6eba34e5cbdf0",
+      "nulls": {
+        "store_key": 0,
+        "country": 0,
+        "state": 0,
+        "square_meters": 1,
+        "open_date": 0
+      }
+    },
+    "exchange_rates": {
+      "file": "Exchange_Rates.csv",
+      "rows": 11215,
+      "encoding": "utf-8-sig",
+      "sha256": "9b46644a0035dae4d6fed174523a2b2dedcc733157c78af6b57a839e0dea39b8",
+      "nulls": {
+        "rate_date": 0,
+        "currency_code": 0,
+        "exchange_rate": 0
+      }
+    },
+    "sales": {
+      "file": "Sales.csv",
+      "rows": 62884,
+      "encoding": "utf-8-sig",
+      "sha256": "15ce9165098227714a2470341495855b55d31539773b85b86ac68a6dee6f9a53",
+      "nulls": {
+        "order_number": 0,
+        "line_item": 0,
+        "order_date": 0,
+        "delivery_date": 49719,
+        "customer_key": 0,
+        "store_key": 0,
+        "product_key": 0,
+        "quantity": 0,
+        "currency_code": 0
+      }
+    }
+  },
+  "orders": 26326,
+  "date_min": "2016-01-01",
+  "date_max": "2021-02-20",
+  "countries": [
+    "Australia",
+    "Canada",
+    "France",
+    "Germany",
+    "Italy",
+    "Netherlands",
+    "United Kingdom",
+    "United States"
+  ],
+  "quantity_total": 197757,
+  "validation": "CSV types, nulls, unique keys and foreign keys passed; MySQL import not yet run.",
+  "sql_sha256": "657846888d981c47d748734ffb64463f7a16a9350e87ba6244e749f078deb20d"
+}

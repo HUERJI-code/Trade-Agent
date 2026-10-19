@@ -1,0 +1,58 @@
+{
+  "trace_id": "58ae2921-40b3-4d39-98ee-5a086929570a",
+  "status": "ok",
+  "answer": "2019年德国估算销售额为 **1,874,921.45** 美元，比2018年的 **1,336,981.32** 美元增加了 **537,940.13** 美元。",
+  "plan": {
+    "action": "query",
+    "mode": "sql",
+    "sql": "SELECT ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2019_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2018_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END) - SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `差额_美元` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `c`.`country` = 'Germany' LIMIT 2000"
+  },
+  "result": {
+    "trace_id": "9ee53820-42a1-4942-9b42-c90b6e8724bc",
+    "columns": [
+      "2019_估算销售额_美元",
+      "2018_估算销售额_美元",
+      "差额_美元"
+    ],
+    "rows": [
+      [
+        "1874921.45",
+        "1336981.32",
+        "537940.13"
+      ]
+    ],
+    "row_count": 1,
+    "row_limit": 2000,
+    "limit_applied": true,
+    "limit_reached": false,
+    "elapsed_ms": 80.28,
+    "sql": "SELECT ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2019_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `2018_估算销售额_美元`, ROUND(SUM(CASE WHEN `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END) - SUM(CASE WHEN `s`.`order_date` >= '2018-01-01' AND `s`.`order_date` < '2019-01-01' THEN `s`.`quantity` * `p`.`unit_price_usd` ELSE 0 END), 2) AS `差额_美元` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `c`.`country` = 'Germany' LIMIT 2000",
+    "kind": "sql",
+    "status": "ok",
+    "label": "查询结果",
+    "requires_estimate": true,
+    "data_coverage": {
+      "first_date": "2016-01-01",
+      "last_date": "2021-02-20"
+    },
+    "limitations": [
+      "金额按产品美元标价及单位成本估算，不代表实际成交收入或净利润。",
+      "没有返回记录或聚合值为空，不等于实际业务为零；查询条件与计算口径请结合执行 SQL 核对。"
+    ]
+  },
+  "model": "trade-agent-qwen3:8b-lora-v1",
+  "usage": [
+    {
+      "prompt_tokens": 2259,
+      "output_tokens": 312
+    }
+  ],
+  "planner_source": "llm_sql",
+  "elapsed_ms": 13518.3,
+  "effective_question": "2019年德国销售额比2018年德国销售额增加了多少？",
+  "inherited_conditions": [],
+  "answer_source": "lora_model",
+  "answer_checks": [],
+  "answer_model": "trade-agent-qwen3:8b-lora-v1",
+  "conversation_id": "1abc9e8b-e40b-4632-8b3a-9e64c81225af"
+}

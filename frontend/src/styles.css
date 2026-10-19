@@ -1,0 +1,95 @@
+/* 基础色彩与字体：使用本机字体，不下载外部字体资源。 */
+:root { font-family: "Segoe UI", "Microsoft YaHei", sans-serif; color: #243f36; background: #f4f6f2; font-synthesis: none; line-height: 1.65; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .55; cursor: default; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid #70b6a5; outline-offset: 4px; }
+/* 顶栏与页面宽度：保持内容居中，避免宽屏上文字行过长。 */
+header { height: 84px; border-bottom: 1px solid #dce5dd; display: flex; align-items: center; gap: 28px; padding: 0 max(28px, calc((100vw - 1240px) / 2)); background: #fafbf8; }
+.brand { display: flex; align-items: center; gap: 7px; color: #254d40; text-decoration: none; font-size: 17px; letter-spacing: 1.4px; font-weight: 750; }
+.brand-icon { background: #214f40; color: #fff; border-radius: 10px; width: 34px; height: 34px; display: grid; place-items: center; margin-right: 8px; }
+.brand-light { font-weight: 400; }
+.header-label { border-left: 1px solid #d3ded5; padding-left: 28px; color: #7b8981; font-size: 12px; }
+.local-pill { margin-left: auto; font-size: 11px; padding: 5px 12px; border: 1px solid #d4e3d7; border-radius: 30px; background: #eaf1e7; white-space: nowrap; }
+main { max-width: 1240px; margin: auto; padding: 44px 0 64px; }
+.intro { margin-bottom: 30px; }
+.eyebrow { font-size: 11px; letter-spacing: 1.6px; color: #748777; margin: 0 0 10px; }
+h1 { font-size: clamp(25px, 3vw, 36px); letter-spacing: -.8px; margin: 0 0 10px; font-weight: 650; }
+.intro > p:last-child { font-size: 14px; color: #7b8981; margin: 0; }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 285px; align-items: start; gap: 26px; }
+.main-column { min-width: 0; }
+/* 输入与结果使用相同卡片边框，使每次查询的边界清晰可见。 */
+.question-card, .result-card, .side-card { background: #fff; border: 1px solid #dfe6dd; border-radius: 14px; }
+.question-card, .result-card { padding: 28px; }
+.section-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+h2 { font-size: 17px; margin: 0; font-weight: 600; }
+.step, .section-top small { color: #8a988e; font-size: 10px; letter-spacing: 1px; }
+label { display: block; margin-bottom: 8px; font-size: 12px; color: #6e8276; }
+textarea { width: 100%; display: block; padding: 16px; background: #f9faf7; border: 1px solid #dce4d9; border-radius: 8px; resize: vertical; color: #2d493d; min-height: 110px; font-size: 14px; }
+textarea:focus { outline: 2px solid #8cbaa6; outline-offset: 2px; }
+textarea::placeholder { color: #9aa89d; }
+.form-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+.form-bottom small { font-size: 11px; color: #8d9a90; }
+.form-bottom button { border: 0; background: #245844; color: white; border-radius: 7px; padding: 10px 22px; font-size: 13px; white-space: nowrap; }
+.form-bottom button:hover:not(:disabled) { background: #153f2e; }
+.examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; border-top: 1px solid #eef0eb; padding-top: 18px; }
+.examples > span { width: 100%; font-size: 10px; color: #8b9a8f; margin-bottom: 2px; }
+.examples button { background: #f5f7f1; border: 1px solid #e5eade; border-radius: 20px; color: #607661; padding: 6px 11px; font-size: 11px; text-align: left; }
+/* 空状态和加载反馈不伪造任何示例业务数值。 */
+.empty-state { text-align: center; border: 1px dashed #cedbcf; border-radius: 14px; margin-top: 24px; padding: 46px 20px; color: #79907e; }
+.empty-icon { display: block; width: 48px; height: 48px; line-height: 48px; background: #e5ecdf; border-radius: 14px; margin: 0 auto 16px; font-size: 23px; }
+.empty-state h2 { font-size: 15px; }
+.empty-state p { font-size: 12px; }
+.flow { display: flex; justify-content: center; gap: 20px; font-size: 11px; margin-top: 25px; }
+.flow i { color: #a7b4a5; font-style: normal; }
+.spinner { display: block; width: 25px; height: 25px; border: 2px solid #c6dacd; border-top-color: #245844; border-radius: 50%; margin: 0 auto 15px; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+/* 右侧说明常驻，帮助用户在提交前了解日期范围和估算口径。 */
+aside { display: grid; gap: 16px; }
+.side-card { padding: 23px; }
+.side-card h2 { font-size: 14px; margin-bottom: 16px; }
+.status-row { display: flex; justify-content: space-between; font-size: 11px; margin: 13px 0; }
+.status-row span { color: #88958b; }
+.status-row strong { font-weight: 500; color: #427458; }
+.text-button { border: 0; background: transparent; padding: 6px 0 0; color: #648572; font-size: 11px; }
+.side-copy { font-size: 12px; color: #7b8b80; margin: 12px 0; }
+.date-range { font-size: 12px; color: #52694e; background: #f1f5ec; border-radius: 6px; padding: 9px; }
+.estimate-note { background: #faf5e9; border-left: 3px solid #d7bc83; padding: 11px; font-size: 11px; color: #89734d; margin-top: 18px; }
+.compact { background: #edf2e8; }
+.compact h2 { margin-bottom: 8px; }
+/* 结果表可横向滚动；SQL 放在折叠区，供学习与核对使用。 */
+.result-card { margin-top: 24px; }
+.badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: #edf3e7; color: #437555; }
+.badge.clarify, .badge.unsupported, .badge.error { background: #faf0df; color: #927331; }
+.answer { font-size: 13px; color: #6f8176; line-height: 1.9; }
+.conditions { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+.conditions span { font-size: 10px; background: #f3f6f0; padding: 5px 9px; border-radius: 5px; }
+.metric-value { font-size: clamp(26px, 4vw, 40px); color: #245844; margin: 26px 0; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.metric-value small { font-size: 12px; margin-left: 12px; color: #7a8c80; }
+.chart { width: 100%; min-height: 340px; }
+.table-scroll { width: 100%; overflow-x: auto; max-height: 420px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; font-variant-numeric: tabular-nums; }
+caption { text-align: left; color: #7a8b7f; margin: 18px 0 10px; font-size: 11px; }
+th { font-weight: 500; background: #f4f7f0; white-space: nowrap; }
+td, th { padding: 11px 13px; border-bottom: 1px solid #eaf0e6; }
+td:not(:first-child), th:not(:first-child) { text-align: right; }
+.footnote, .trace { font-size: 10px; color: #869488; margin-top: 16px; overflow-wrap: anywhere; }
+details { border-top: 1px solid #e8eee4; padding-top: 14px; margin-top: 20px; }
+summary { cursor: pointer; font-size: 11px; color: #6a8674; }
+/* 会话切换按钮与聊天记录；长标题换行，避免挤出侧栏。 */
+.conversation-list { display: grid; gap: 8px; margin-top: 12px; max-height: 320px; overflow: auto; }
+.conversation { text-align: left; padding: 10px; border: 1px solid #dce5d9; border-radius: 8px; background: white; color: #526b5b; cursor: pointer; overflow-wrap: anywhere; }
+.conversation.active { background: #edf5ef; border-color: #197c6f; }
+.status-row strong { max-width: 65%; overflow-wrap: anywhere; text-align: right; }
+.chat-turn { padding: 12px 0; border-bottom: 1px solid #edf1ee; line-height: 1.8; font-size: 14px; overflow-wrap: anywhere; }
+.chat-turn:last-child { border-bottom: 0; }
+pre { padding: 16px; background: #f5f7f3; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; color: #526b5b; }
+.notice { border: 1px solid #e8d6ab; background: #fcf7e9; padding: 18px; border-radius: 10px; margin-top: 24px; font-size: 13px; }
+footer { max-width: 1240px; margin: 0 auto; padding: 22px 0; border-top: 1px solid #dce5d9; display: flex; justify-content: space-between; font-size: 10px; color: #869583; letter-spacing: 1px; }
+/* 窄屏将说明移到结果下方，避免输入框或图表挤出视口。 */
+@media (max-width: 1300px) { main, footer { margin-left: 28px; margin-right: 28px; } }
+@media (max-width: 850px) { .workspace { grid-template-columns: minmax(0, 1fr); } aside { grid-template-columns: repeat(2, minmax(0, 1fr)); } .compact { grid-column: 1 / -1; } }
+@media (max-width: 540px) { header { padding: 0 18px; height: 70px; gap: 10px; } .header-label { display: none; } .brand { font-size: 14px; gap: 4px; } main { padding-top: 28px; } main, footer { margin-left: 16px; margin-right: 16px; } .question-card, .result-card { padding: 19px; } aside { grid-template-columns: minmax(0, 1fr); } .step { display: none; } .form-bottom small { max-width: 130px; } footer { gap: 16px; letter-spacing: 0; } }

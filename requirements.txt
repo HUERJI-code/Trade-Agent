@@ -1,0 +1,23 @@
+# 文件作用：运行依赖清单。== 固定包版本以重现当前环境；它不会自动安装，需要 pip install -r 执行。
+# 注释记录这些版本曾在本机 Python 3.12 环境验证，不代表它们是互联网上的最新版本。
+# SQLAlchemy 提供连接引擎、连接池、结构反射和统一数据库异常。
+SQLAlchemy==2.0.34
+# PyMySQL 是与 MySQL 通信的 Python 驱动，SQLAlchemy 通过它发送请求。
+PyMySQL==1.1.1
+# python-dotenv 提供 dotenv_values，用来读取 .env 配置。
+python-dotenv==0.21.0
+# cryptography 提供加密能力，PyMySQL 的部分 MySQL 认证方式可能依赖它。
+cryptography==43.0.0
+# sqlglot 解析、检查和重新生成 SQL 语法树。
+sqlglot==30.18.0
+# PyYAML 读取业务指标 YAML 配置。
+PyYAML==6.0.3
+# FastAPI 将现有问数服务包装为本机网页接口。
+fastapi==0.141.1
+# Uvicorn 运行 FastAPI；启动脚本只监听本机。
+uvicorn==0.52.4
+# LangChain 提供工具和模型接口，LangGraph 保存会话并编排步骤。
+langchain==1.4.0
+langchain-ollama==1.1.0
+langgraph==1.2.11
+langgraph-checkpoint-sqlite==3.1.1

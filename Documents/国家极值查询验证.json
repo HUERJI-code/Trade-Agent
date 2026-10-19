@@ -1,0 +1,103 @@
+{
+  "trace_id": "5bd5411c-af08-42fc-8eb4-8d3e8778a509",
+  "status": "ok",
+  "answer": "2019-01-01 至 2020-01-01（不含结束日），客户国家：全部。在所选期间有交易且指标可计算的 8 个客户国家中，估算销售额最高的是美国，为 10,133,066.38 美元。金额与毛利率按产品标价及单位成本估算，不代表实际成交收入或净利润。",
+  "plan": {
+    "action": "query",
+    "metric": "revenue",
+    "start": "2019-01-01",
+    "end": "2020-01-01",
+    "country": null,
+    "dimension": "customer_country",
+    "reason": null,
+    "sort_order": "desc"
+  },
+  "result": {
+    "metric_id": "revenue",
+    "label": "估算销售额",
+    "unit": "USD",
+    "status": "ok",
+    "start_inclusive": "2019-01-01",
+    "end_exclusive": "2020-01-01",
+    "country": null,
+    "dimension": "customer_country",
+    "data_coverage": {
+      "first_date": "2016-01-01",
+      "last_date": "2021-02-20",
+      "partial": false
+    },
+    "columns": [
+      "dimension_value",
+      "metric_value",
+      "matching_sales_lines"
+    ],
+    "rows": [
+      [
+        "United States",
+        "10133066.38",
+        11938
+      ],
+      [
+        "United Kingdom",
+        "2041930.51",
+        2468
+      ],
+      [
+        "Germany",
+        "1874921.45",
+        2208
+      ],
+      [
+        "Canada",
+        "1502227.97",
+        1799
+      ],
+      [
+        "Australia",
+        "890276.61",
+        1014
+      ],
+      [
+        "Italy",
+        "707836.08",
+        853
+      ],
+      [
+        "Netherlands",
+        "639132.95",
+        771
+      ],
+      [
+        "France",
+        "474990.53",
+        560
+      ]
+    ],
+    "limit_reached": false,
+    "limitations": [
+      "没有实际成交价、折扣、税费、运费、退货和历史价格。",
+      "产品价格已经是 USD，不再按订单币种重复换算。"
+    ],
+    "trace_id": "62f6b439-3a13-48a6-9769-4410d5590808",
+    "coverage_trace_id": "8d9b824a-5635-4fae-953c-f99b3f64e7d0",
+    "sql": "SELECT `c`.`country` AS `dimension_value`, SUM(`s`.`quantity` * `p`.`unit_price_usd`) AS `metric_value`, COUNT(*) AS `matching_sales_lines` FROM `trade_agent_demo`.`sales` AS `s` JOIN `trade_agent_demo`.`products` AS `p` ON `s`.`product_key` = `p`.`product_key` JOIN `trade_agent_demo`.`customers` AS `c` ON `s`.`customer_key` = `c`.`customer_key` WHERE `s`.`order_date` >= '2019-01-01' AND `s`.`order_date` < '2020-01-01' GROUP BY `c`.`country` ORDER BY `dimension_value` LIMIT 2000",
+    "ranking": {
+      "operation": "country_extreme",
+      "sort_order": "desc",
+      "winners": [
+        [
+          "United States",
+          "10133066.38",
+          11938
+        ]
+      ],
+      "compared_groups": 8,
+      "null_groups": 0,
+      "method": "Decimal comparison after complete grouped SQL result"
+    }
+  },
+  "model": null,
+  "usage": [],
+  "planner_source": "country_ranking_rule",
+  "elapsed_ms": 338.6
+}
